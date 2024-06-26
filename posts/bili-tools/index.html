@@ -1,0 +1,295 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Docker安装B站自动签到、抽奖工具 | Ly7ngF Blog</title><noscript>开启JavaScript才能访问本站哦~</noscript><link rel="icon" href="https://s2.loli.net/2024/06/15/RUsmewShJG47o2r.webp"><!-- index.css--><link rel="stylesheet" href="/css/index.css?v=1.12.2"><!-- inject head--><link rel="canonical" href="https://blog.ly7ngf.top/posts/bili-tools/"><link rel="stylesheet" href="https://cdn2.codesign.qq.com/icons/7pOrz0WXB5ZWJPX/latest/iconfont.css"><!-- aplayer--><!-- swiper--><!-- fancybox ui--><!-- katex--><!-- Open Graph--><meta name="description" content="前言 简介 官网描述:B 站（bilibili）自动任务工具，支持docker、青龙、k8s等多种部署方式。敏感肌也能用。 功能介绍 详细功能如下： 扫码登录，自动更新cookie 每日获取满额升级经验（登录、投币、点赞、分享视频）（支持指定支持up主） 直播间挂机 每天漫画签到 每天直播签到"><!-- pwa--><meta name="apple-mobile-web-app-capable" content="Ly7ngF Blog"><meta name="theme-color" content="var(--efu-main)"><meta name="apple-mobile-web-app-status-bar-style" content="var(--efu-main)"><link rel="bookmark" href="https://s2.loli.net/2024/06/15/RUsmewShJG47o2r.webp"><link rel="apple-touch-icon" href="https://s2.loli.net/2024/06/15/RUsmewShJG47o2r.webp" sizes="180x180"><script>console.log(
+    "%c Program: Hexo %c Theme: Solitude %c Version: v1.12.2",
+    "border-radius:5px 0 0 5px;padding: 5px 10px;color:white;background:#ff3842;",
+    "padding: 5px 10px;color:white;background:#3e9f50;",
+    "padding: 5px 10px;color:white;background:#0084ff;border-radius:0 5px 5px 0",
+)
+</script><script>let mdate = "7-8,9-18,12-13";
+mdate = (mdate.split(","));
+let ndate = new Date();
+for (let i of mdate) {
+    if (i === (ndate.getMonth()+1) + "-" + (ndate.getDate())) {
+        document.documentElement.classList.add('memorial');
+    }
+}
+</script><script>(()=>{
+        const saveToLocal = {
+            set: function setWithExpiry(key, value, ttl) {
+                if (ttl === 0)
+                    return
+                const now = new Date()
+                const expiryDay = ttl * 86400000
+                const item = {
+                    value: value,
+                    expiry: now.getTime() + expiryDay
+                }
+                localStorage.setItem(key, JSON.stringify(item))
+            },
+            get: function getWithExpiry(key) {
+                const itemStr = localStorage.getItem(key)
+    
+                if (!itemStr) {
+                    return undefined
+                }
+                const item = JSON.parse(itemStr)
+                const now = new Date()
+    
+                if (now.getTime() > item.expiry) {
+                    localStorage.removeItem(key)
+                    return undefined
+                }
+                return item.value
+            }
+        };
+        window.utils = {
+            saveToLocal: saveToLocal,
+            getCSS: (url, id = false) => new Promise((resolve, reject) => {
+              const link = document.createElement('link')
+              link.rel = 'stylesheet'
+              link.href = url
+              if (id) link.id = id
+              link.onerror = reject
+              link.onload = link.onreadystatechange = function() {
+                const loadState = this.readyState
+                if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+                link.onload = link.onreadystatechange = null
+                resolve()
+              }
+              document.head.appendChild(link)
+            }),
+            getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+              const script = document.createElement('script')
+              script.src = url
+              script.async = true
+              script.onerror = reject
+              script.onload = script.onreadystatechange = function() {
+                const loadState = this.readyState
+                if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+                script.onload = script.onreadystatechange = null
+                resolve()
+              }
+    
+              Object.keys(attr).forEach(key => {
+                script.setAttribute(key, attr[key])
+              })
+    
+              document.head.appendChild(script)
+            }),
+            addGlobalFn: (key, fn, name = false, parent = window) => {
+                const globalFn = parent.globalFn || {}
+                const keyObj = globalFn[key] || {}
+        
+                if (name && keyObj[name]) return
+        
+                name = name || Object.keys(keyObj).length
+                keyObj[name] = fn
+                globalFn[key] = keyObj
+                parent.globalFn = globalFn
+            },
+        }
+    })()</script><!-- global head--><script>const GLOBAL_CONFIG = {
+    root: '/',
+    algolia: undefined,
+    localsearch: undefined,
+    runtime: '2023-12-16 00:00:00',
+    lazyload: {
+        enable: true,
+        error: '/img/error_load.avif'
+    },
+    copyright: {"limit":50,"author":"作者: Leo","link":"链接: ","source":"来源: Ly7ngF Blog","info":"著作权归作者所有。 商业转载请联系作者获得授权，非商业转载请注明出处。"},
+    highlight: {
+        enable: true,
+        limit: 200,
+        expand: true,
+        copy: true,
+        syntax: 'prismjs'
+    },
+    randomlink: false,
+    lang: {"theme":{"dark":"已切换至深色模式","light":"已切换至浅色模式"},"copy":{"success":"复制成功","error":"复制失败"},"backtop":"返回顶部","time":{"day":"天前","hour":"小时前","just":"刚刚","min":"分钟前","month":"个月前"},"day":" 天","f12":"开发者模式已打开，请遵循GPL协议。","totalk":"无需删除空行，直接输入评论即可"},
+    aside: {
+        sayhello: {
+            morning: '一日之计在于晨',
+            noon: '吃饱了才有力气干活',
+            afternoon: '集中精力，攻克难关',
+            night: '不要太劳累了，早睡更健康',
+            goodnight: '睡个好觉，保证精力充沛',
+        },
+        sayhello2: [],
+        sayhello3: {
+            prefix: '好久不见，',
+            back: '欢迎再次回来，',
+        },
+    },
+    covercolor: {
+        enable: false
+    },
+    comment: false,
+    lightbox: 'mediumZoom',
+    post_ai: false,
+    right_menu: false,
+};</script><!-- page-config head--><script id="config-diff">var PAGE_CONFIG = {
+    is_post: true,
+    is_page: false,
+    is_home: false,
+    page: '',
+    toc: true,
+    comment: true,
+    ai_text: false
+}</script><meta name="generator" content="Hexo 7.2.0"></head><body id="body"><!-- universe--><!-- loading--><!-- console--><div id="console"><div class="close-btn" onclick="sco.hideConsole()"><i class="solitude st-close-fill"></i></div><div class="button-group"><div class="console-btn-item"><span class="darkmode_switchbutton" onclick="sco.switchDarkMode()" title="昼夜切换"><i class="solitude st-moon-clear-fill"></i></span></div><div class="console-btn-item" id="consoleHideAside"><span class="asideSwitch" onclick="sco.switchHideAside()" title="边栏显示控制"><i class="solitude st-side-bar-fill"></i></span></div></div><div class="console-mask" onclick="sco.hideConsole()"></div></div><!-- sidebar--><div id="sidebar" style="zoom: 1;"><div id="menu-mask" style="display: none;"></div><div id="sidebar-menus"><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">11</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">28</div></a></div></div></div><span class="sidebar-menu-item-title">功能</span><div class="sidebar-menu-item"><span class="darkmode_switchbutton menu-child" onclick="sco.switchDarkMode()"><i class="solitude st-moon-clear-fill"></i><span>显示模式</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>文库</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="solitude  st-folder-fill"></i><span>时光轴</span></a></li><li><a class="site-page child" href="/tags/"><i class="solitude  st-price-tag-fill"></i><span>标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>关于</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/about/"><i class="solitude  st-contacts-fill"></i><span>关于本站</span></a></li></ul></div></div><span class="sidebar-menu-item-title">标签</span><div class="card-widget card-tags card-archives card-webinfo card-allinfo"><div class="card-tag-cloud"><a href="/tags/%E5%93%94%E5%93%A9%E5%93%94%E5%93%A9/">哔哩哔哩<sup>1</sup></a><a href="/tags/Github/">Github<sup>1</sup></a><a href="/tags/Docker/">Docker<sup>5</sup></a><a href="/tags/SSL/">SSL<sup>3</sup></a><a href="/tags/%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86/">反向代理<sup>2</sup></a><a href="/tags/NginxProxyManager/">NginxProxyManager<sup>1</sup></a><a href="/tags/Caddy/">Caddy<sup>1</sup></a><a href="/tags/Minecraft/">Minecraft<sup>2</sup></a><a href="/tags/Java/">Java<sup>2</sup></a><a href="/tags/Fabric/">Fabric<sup>1</sup></a><a href="/tags/ArchLinux/">ArchLinux<sup>1</sup></a><a href="/tags/FontConfig/">FontConfig<sup>1</sup></a><a href="/tags/%E5%AD%97%E4%BD%93/">字体<sup>1</sup></a><a href="/tags/Mac-mini/">Mac mini<sup>1</sup></a><a href="/tags/SSH/">SSH<sup>2</sup></a><a href="/tags/Homebrew/">Homebrew<sup>1</sup></a><a href="/tags/Windows/">Windows<sup>1</sup></a><a href="/tags/RSync/">RSync<sup>1</sup></a><a href="/tags/Hexo/">Hexo<sup>1</sup></a><a href="/tags/Cygwin/">Cygwin<sup>1</sup></a><a href="/tags/Linux/">Linux<sup>1</sup></a><a href="/tags/SwayWM/">SwayWM<sup>1</sup></a><a href="/tags/i3wm/">i3wm<sup>1</sup></a><a href="/tags/Arch/">Arch<sup>1</sup></a><a href="/tags/autologin/">autologin<sup>1</sup></a><a href="/tags/agetty/">agetty<sup>1</sup></a><a href="/tags/systemd/">systemd<sup>1</sup></a><a href="/tags/Debian/">Debian<sup>1</sup></a></div></div></div></div><!-- keyboard--><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav class="show" id="nav"><div id="nav-group"><div id="blog_name"><a id="site-name" href="/" title="返回博客主页"><span class="title">Ly7ngF</span></a></div><div id="page-name-mask"><div id="page-name"><a id="page-name-text" onclick="sco.toTop()">Docker安装B站自动签到、抽奖工具</a></div></div><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>文库</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="solitude  st-folder-fill"></i><span>时光轴</span></a></li><li><a class="site-page child" href="/tags/"><i class="solitude  st-price-tag-fill"></i><span>标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>关于</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/about/"><i class="solitude  st-contacts-fill"></i><span>关于本站</span></a></li></ul></div></div></div><div id="nav-left"></div><div id="nav-right"><div class="nav-button" id="nav-totop" onclick="sco.toTop()"><a class="totopbtn"><i class="solitude st-arrow-up-line"></i><span id="percent">0</span></a></div><div id="toggle-menu"><a class="site-page"><i class="solitude st-menu-line"></i></a></div></div></div></nav><div class="coverdiv" id="coverdiv"><img class="nolazyload" id="post-cover" src="/img/default.avif" alt="Docker安装B站自动签到、抽奖工具"></div><div id="post-info"><div id="post-firstinfo"><div class="meta-firstline"><a class="post-meta-original" title="该文章为原创文章，注意版权协议">原创</a><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%93%94%E5%93%A9%E5%93%94%E5%93%A9/"><span class="tags-name tags-punctuation">哔哩哔哩</span></a><a class="post-meta__tags" href="/tags/Github/"><span class="tags-name tags-punctuation">Github</span></a><a class="post-meta__tags" href="/tags/Docker/"><span class="tags-name tags-punctuation">Docker</span></a></div></div></div></div><h1 class="post-title">Docker安装B站自动签到、抽奖工具</h1><div id="post-meta"><div class="meta-secondline"></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1>前言</h1>
+<h2 id="简介">简介</h2>
+<blockquote>
+<p>官网描述:B 站（bilibili）自动任务工具，支持docker、青龙、k8s等多种部署方式。敏感肌也能用。</p>
+</blockquote>
+<h2 id="功能介绍">功能介绍</h2>
+<p>详细功能如下：</p>
+<ul>
+<li>扫码登录，自动更新cookie</li>
+<li>每日获取满额升级经验（登录、投币、点赞、分享视频）（支持指定支持up主）</li>
+<li>直播间挂机</li>
+<li>每天漫画签到</li>
+<li>每天直播签到</li>
+<li>直播中心银瓜子兑换为硬币</li>
+<li>每月领取大会员赠送的 5 张 B 币券和福利（忘记或者不领就浪费了哦）</li>
+<li>每月领取大会员漫画福利</li>
+<li>月底在 B 币券过期前进行充电（支持指定想要支持的up主，如果没有喜欢的up，也可以为自己充个电啊，做个用爱为自己发电的人~）</li>
+<li>直播中心天选时刻自动参与抽奖</li>
+<li>批量取关</li>
+<li>大会员大积分任务</li>
+<li>支持多账号</li>
+<li>理论上支持所有远端的日志推送（默认支持推送到Telegram、企业微信、钉钉、PushPlus、Server酱、钉钉、酷推，另外也支持自定义推送到任意api）</li>
+</ul>
+<p>前段时间在网上了解到了这个项目，于是我就在自己的VPS上运行了一下，发现效果不错，今天就来介绍一下这个项目。</p>
+<h1>相关地址</h1>
+<p><strong>Github仓库</strong>: <a target="_blank" rel="noopener" href="https://github.com/RayWangQvQ/BiliBiliToolPro">https://github.com/RayWangQvQ/BiliBiliToolPro</a><br>
+<strong>官方文档</strong>: <a target="_blank" rel="noopener" href="https://github.com/RayWangQvQ/BiliBiliToolPro/blob/main/README.md">https://github.com/RayWangQvQ/BiliBiliToolPro/blob/main/README.md</a></p>
+<h1>开始部署</h1>
+<h2 id="创建安装目录并下载文件">创建安装目录并下载文件</h2>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 创建目录</span>
+<span class="token function">mkdir</span> bili <span class="token operator">&amp;&amp;</span> <span class="token builtin class-name">cd</span> bili
+<span class="token comment"># 下载</span>
+<span class="token function">wget</span> https://raw.githubusercontent.com/RayWangQvQ/BiliBiliToolPro/main/src/Ray.BiliBiliTool.Console/appsettings.json
+<span class="token function">wget</span> https://raw.githubusercontent.com/RayWangQvQ/BiliBiliToolPro/main/docker/sample/cookies.json
+<span class="token function">wget</span> https://raw.githubusercontent.com/RayWangQvQ/BiliBiliToolPro/main/docker/sample/docker-compose.yml<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>下载好所需文件之后我们需要编辑一下应用配置文件以及compose文件</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">nano</span> docker-compose.yml<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token key atrule">version</span><span class="token punctuation">:</span> <span class="token string">'3.9'</span>
+<span class="token key atrule">services</span><span class="token punctuation">:</span>
+  <span class="token key atrule">bilibili_tool</span><span class="token punctuation">:</span>
+    <span class="token key atrule">image</span><span class="token punctuation">:</span> ghcr.io/raywangqvq/bilibili_tool_pro
+    <span class="token key atrule">container_name</span><span class="token punctuation">:</span> bili
+    <span class="token key atrule">restart</span><span class="token punctuation">:</span> unless<span class="token punctuation">-</span>stopped
+    <span class="token key atrule">tty</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+    <span class="token key atrule">volumes</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> ./Logs<span class="token punctuation">:</span>/app/Logs
+      <span class="token punctuation">-</span> ./appsettings.json<span class="token punctuation">:</span>/app/appsettings.json
+      <span class="token punctuation">-</span> ./cookies.json<span class="token punctuation">:</span>/app/cookies.json
+    <span class="token key atrule">environment</span><span class="token punctuation">:</span>
+      <span class="token comment"># 定时任务</span>
+      <span class="token punctuation">-</span> Ray_DailyTaskConfig__Cron=0 15 * * *
+<span class="token comment">#      - Ray_LiveLotteryTaskConfig__Cron=0 22 * * *</span>
+<span class="token comment">#      - Ray_UnfollowBatchedTaskConfig__Cron=0 6 1 * *</span>
+      <span class="token punctuation">-</span> Ray_VipBigPointConfig__Cron=7 1 * * *
+<span class="token comment">#      - Ray_LiveFansMedalTaskConfig__Cron=5 0 * * *</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>这边用<code>#</code>注释掉我们不需要的定时任务，然后<code>Ctrl+S</code> <code>Ctrl+X</code>保存并退出。<br>
+同理编辑<code>appsettings.json</code>，这边我就不演示了，详细内容可看<a target="_blank" rel="noopener" href="https://github.com/RayWangQvQ/BiliBiliToolPro/blob/main/README.md">官方文档</a>。</p>
+<h1>启动</h1>
+<p>使用<code>docker compose up -d</code>命令在后台启动容器</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 启动</span>
+<span class="token function">docker</span> compose up <span class="token parameter variable">-d</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h1>结语</h1>
+<p>按照以上方法安装完之后，只要服务器不关机，BiliBiliTool每天都会定时为我们执行设定好的任务，对于我这种懒人来说非常实用。</p>
+</article><div class="post-copyright"><div class="post-copyright__author_group"><a class="post-copyright__author_img" href="/about/"><img class="post-copyright__author_img_front" src= "/img/loading.avif" data-lazy-src="https://s2.loli.net/2024/06/15/RUsmewShJG47o2r.webp"></a><div class="post-copyright__author_name">Ly7ngF Blog</div><div class="post-copyright__author_desc"></div></div><div class="post-tools" id="post-tools"><div class="post-tools-left"><div id="quit-box" onclick="RemoveRewardMask()"></div></div></div><div class="post-copyright__notice"><span class="post-copyright-info">本文是原创文章，采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a>协议，完整转载请注明来自<a href="/">Ly7ngF Blog</a></span></div></div><div class="post-tools-right"><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%93%94%E5%93%A9%E5%93%94%E5%93%A9/"><span class="tags-punctuation"></span>哔哩哔哩<span class="tagsPageCount">1</span></a><a class="post-meta__tags" href="/tags/Github/"><span class="tags-punctuation"></span>Github<span class="tagsPageCount">1</span></a><a class="post-meta__tags" href="/tags/Docker/"><span class="tags-punctuation"></span>Docker<span class="tagsPageCount">5</span></a></div></div></div><nav class="needEndHide pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/posts/macmini-server/"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Mac mini服务器初始化设置</div></div></a></div><div class="next-post pull-right"><a href="/posts/config-nginxproxymanager/"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">NginxProxyManager的安装和使用</div></div></a></div></nav><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="solitude st-chat-fill"></i><span> 评论</span><span class="count"> (<span class="twikoo-count"><i class="solitude st-loading-line"></i></span>)</span></div></div><div class="comment-wrap"><div id="twikoo-wrap"></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-content"><div class="card-info-avatar is-center"><div class="author-info__top-group"><div class="author-info__sayhi" id="author-info__sayhi" onclick="sco.changeSayHelloText()">sayhello.morning</div></div></div><div class="avatar-img-group"><img class="avatar-img" alt="头像" src= "/img/loading.avif" data-lazy-src="https://s2.loli.net/2024/06/15/RUsmewShJG47o2r.webp"></div><div class="author-info__description_group"><div class="author-info__description">分享自己对科技的<b>热爱</b>，对美好生活的<b>向往</b>，对知识海洋<b>探索历程</b>。</div><div class="author-info__description2">相信你可以在这里找到对你有用的知识和教程。</div></div><div class="author-info__bottom-group"><a class="author-info__bottom-group-left" href="/about/"><div class="author-info__name">Leo</div><div class="author-info__desc"></div></a><div class="card-info-social-icons is-center"><a class="social-icon" target="_blank" rel="noopener" href="https://github.com/1eof" title="Github"><i class="solitude  st-github-line"></i></a><a class="social-icon" target="_blank" rel="noopener" href="https://space.bilibili.com/531277104" title="Bilibili"><i class="solitude  st-bilibili-line"></i></a></div></div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="solitude st-menu-line"></i><span>文章目录</span></div><div class="toc-content" id="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">前言</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-text">简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%9F%E8%83%BD%E4%BB%8B%E7%BB%8D"><span class="toc-text">功能介绍</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">相关地址</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">开始部署</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E5%AE%89%E8%A3%85%E7%9B%AE%E5%BD%95%E5%B9%B6%E4%B8%8B%E8%BD%BD%E6%96%87%E4%BB%B6"><span class="toc-text">创建安装目录并下载文件</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">启动</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">结语</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="solitude st-map-line"></i><span>最近发布</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/hello-world/" title="Hello World"><img alt="Hello World" src= "/img/loading.avif" data-lazy-src="/img/default.avif"></a><div class="content"><a class="title" href="/posts/hello-world/" title="Hello World">Hello World</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/sway-autologin/" title="SwayWM、i3wm在无显示管理器的情况下实现开机自动登录"><img alt="SwayWM、i3wm在无显示管理器的情况下实现开机自动登录" src= "/img/loading.avif" data-lazy-src="/img/default.avif"></a><div class="content"><a class="title" href="/posts/sway-autologin/" title="SwayWM、i3wm在无显示管理器的情况下实现开机自动登录">SwayWM、i3wm在无显示管理器的情况下实现开机自动登录</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/linux-fontconfig/" title="分享我在Linux下的Fontconfig"><img alt="分享我在Linux下的Fontconfig" src= "/img/loading.avif" data-lazy-src="/img/default.avif"></a><div class="content"><a class="title" href="/posts/linux-fontconfig/" title="分享我在Linux下的Fontconfig">分享我在Linux下的Fontconfig</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/macmini-server/" title="Mac mini服务器初始化设置"><img alt="Mac mini服务器初始化设置" src= "/img/loading.avif" data-lazy-src="/img/default.avif"></a><div class="content"><a class="title" href="/posts/macmini-server/" title="Mac mini服务器初始化设置">Mac mini服务器初始化设置</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/bili-tools/" title="Docker安装B站自动签到、抽奖工具"><img alt="Docker安装B站自动签到、抽奖工具" src= "/img/loading.avif" data-lazy-src="/img/default.avif"></a><div class="content"><a class="title" href="/posts/bili-tools/" title="Docker安装B站自动签到、抽奖工具">Docker安装B站自动签到、抽奖工具</a></div></div></div></div></div></div></main><footer id="footer"><div id="st-footer-bar"><div class="footer-logo"><span>Ly7ngF</span></div><div class="footer-bar-description">来自 Leo 的文章</div><a class="footer-bar-link" href="/about/">了解更多</a></div><div id="footer_deal"></div><div id="st-footer"></div><div id="footer-bar"><div class="footer-bar-links"><div class="footer-bar-left"><div class="copyright">© 2023 - 2024 By&nbsp;<a class="footer-bar-link" href="/">Leo</a></div></div><div class="footer-bar-right"><a class="footer-bar-link" target="_blank" rel="noopener" href="https://github.com/everfu/hexo-theme-solitude" alt="主题">主题</a><a class="footer-bar-link cc" href="/null" aria-label="copyright"><i class="solitude st-copyright-line"></i><i class="solitude st-creative-commons-by-line"></i><i class="solitude st-creative-commons-nc-line"></i><i class="solitude st-creative-commons-nd-line"></i></a></div></div></div></footer></div><!-- right_menu--><!-- inject body--><div><script src="/js/utils.js?v=1.12.2"></script><script src="/js/main.js?v=1.12.2"></script><script src="/js/third_party/waterfall.min.js?v=1.12.2"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/pjax/0.2.8/pjax.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/19.1.3/lazyload.iife.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/node-snackbar/0.1.16/snackbar.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.1.0/medium-zoom.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js"></script><div class="js-pjax"><script>(() => {
+    const getCount = () => {
+        const ele = document.querySelectorAll('.twikoo-count')
+        if (!ele) return
+        twikoo.getCommentsCount({
+            envId: 'https://twikoo.ly7ngf.top/',
+            region: '',
+            urls: [window.location.pathname],
+            includeReply: false
+        }).then(res => {
+            ele.forEach(item => item.textContent = res[0].count)
+        }).catch(err => {
+            console.error(err)
+        })
+    }
+    const init = () => {
+        twikoo.init(Object.assign({
+            el: '#twikoo-wrap',
+            envId: 'https://twikoo.ly7ngf.top/',
+            region: '',
+            path: window.location.pathname,
+            onCommentLoaded: () => {
+                GLOBAL_CONFIG.lightbox && utils.lightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+            }
+        }, null))
+
+         && getCount()
+        sco.owoBig({
+            body: '.OwO-body',
+            item: '.OwO-items li'
+        })
+
+        barrageTwikoo()
+    }
+
+    const loadTwikoo = () => {
+        if (typeof twikoo === 'object') setTimeout(init,0)
+        else utils.getScript('https://cdnjs.cloudflare.com/ajax/libs/twikoo/1.6.36/twikoo.all.min.js').then(init)
+    }
+
+    if ('Twikoo' === 'Twikoo' || true) {
+        if (true) utils.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+        else loadTwikoo()
+    } else {
+        window.loadTwoComment = loadTwikoo
+    }
+})()
+</script></div></div><!-- pjax--><script>const pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: ['title','#body-wrap','#site-config','meta[name="description"]','.js-pjax','meta[property^="og:"]','#config-diff'],
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+})
+
+document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+})
+
+document.addEventListener('pjax:complete', () => {
+    window.refreshFn()
+
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+        const newScript = document.createElement('script')
+        const content = item.text || item.textContent || item.innerHTML || ""
+        Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+        newScript.appendChild(document.createTextNode(content))
+        item.parentNode.replaceChild(newScript, item)
+    })
+
+    GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+})
+
+document.addEventListener('pjax:error', (e) => {
+    if (e.request.status === 404) {
+        pjax.loadUrl('/404.html')
+    }
+})</script><!-- theme--><script>initTheme = () => {
+    let isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const cachedMode = utils.saveToLocal.get('theme');
+    if (cachedMode === undefined) {
+        const nowMode =
+            isDarkMode ? 'dark' : 'light'
+        document.documentElement.setAttribute('data-theme', nowMode);
+    } else {
+        document.documentElement.setAttribute('data-theme', cachedMode);
+    }
+    typeof rm === 'object' && rm.mode(cachedMode === 'dark' && isDarkMode)
+}
+initTheme()</script><!-- google adsense--><!-- search--><!-- Tianli-Talk--><!-- music--></body></html><script>const posts=["posts/hello-world/","posts/sway-autologin/","posts/linux-fontconfig/","posts/macmini-server/","posts/bili-tools/","posts/config-nginxproxymanager/","posts/config-caddy/","posts/docker-mcserver/","posts/fabric-mcserver/","posts/rsync-deploy-hexo/","posts/vps-cmd/"];function toRandomPost(){ pjax.loadUrl('/'+posts[Math.floor(Math.random()*posts.length)]); }</script>

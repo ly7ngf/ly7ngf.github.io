@@ -1,0 +1,308 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Mac mini服务器初始化设置 | Ly7ngF Blog</title><noscript>开启JavaScript才能访问本站哦~</noscript><link rel="icon" href="https://s2.loli.net/2024/06/15/RUsmewShJG47o2r.webp"><!-- index.css--><link rel="stylesheet" href="/css/index.css?v=1.12.2"><!-- inject head--><link rel="canonical" href="https://blog.ly7ngf.top/posts/macmini-server/"><link rel="stylesheet" href="https://cdn2.codesign.qq.com/icons/7pOrz0WXB5ZWJPX/latest/iconfont.css"><!-- aplayer--><!-- swiper--><!-- fancybox ui--><!-- katex--><!-- Open Graph--><meta name="description" content="前言 最近把一台闲置的Mac mini改装成了家庭服务器，今天来分享一下使用体验和设置过程。 准备工作 硬件 1台Mac电脑（我这里选择 Mac mini M1） 连接网络，最好用有线，保证所有设备都在同一局域网下 连接键鼠、视频线 外接固态硬盘盒（可选） 软件 开启系统共享 打开系统偏好设置，"><!-- pwa--><meta name="apple-mobile-web-app-capable" content="Ly7ngF Blog"><meta name="theme-color" content="var(--efu-main)"><meta name="apple-mobile-web-app-status-bar-style" content="var(--efu-main)"><link rel="bookmark" href="https://s2.loli.net/2024/06/15/RUsmewShJG47o2r.webp"><link rel="apple-touch-icon" href="https://s2.loli.net/2024/06/15/RUsmewShJG47o2r.webp" sizes="180x180"><script>console.log(
+    "%c Program: Hexo %c Theme: Solitude %c Version: v1.12.2",
+    "border-radius:5px 0 0 5px;padding: 5px 10px;color:white;background:#ff3842;",
+    "padding: 5px 10px;color:white;background:#3e9f50;",
+    "padding: 5px 10px;color:white;background:#0084ff;border-radius:0 5px 5px 0",
+)
+</script><script>let mdate = "7-8,9-18,12-13";
+mdate = (mdate.split(","));
+let ndate = new Date();
+for (let i of mdate) {
+    if (i === (ndate.getMonth()+1) + "-" + (ndate.getDate())) {
+        document.documentElement.classList.add('memorial');
+    }
+}
+</script><script>(()=>{
+        const saveToLocal = {
+            set: function setWithExpiry(key, value, ttl) {
+                if (ttl === 0)
+                    return
+                const now = new Date()
+                const expiryDay = ttl * 86400000
+                const item = {
+                    value: value,
+                    expiry: now.getTime() + expiryDay
+                }
+                localStorage.setItem(key, JSON.stringify(item))
+            },
+            get: function getWithExpiry(key) {
+                const itemStr = localStorage.getItem(key)
+    
+                if (!itemStr) {
+                    return undefined
+                }
+                const item = JSON.parse(itemStr)
+                const now = new Date()
+    
+                if (now.getTime() > item.expiry) {
+                    localStorage.removeItem(key)
+                    return undefined
+                }
+                return item.value
+            }
+        };
+        window.utils = {
+            saveToLocal: saveToLocal,
+            getCSS: (url, id = false) => new Promise((resolve, reject) => {
+              const link = document.createElement('link')
+              link.rel = 'stylesheet'
+              link.href = url
+              if (id) link.id = id
+              link.onerror = reject
+              link.onload = link.onreadystatechange = function() {
+                const loadState = this.readyState
+                if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+                link.onload = link.onreadystatechange = null
+                resolve()
+              }
+              document.head.appendChild(link)
+            }),
+            getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+              const script = document.createElement('script')
+              script.src = url
+              script.async = true
+              script.onerror = reject
+              script.onload = script.onreadystatechange = function() {
+                const loadState = this.readyState
+                if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+                script.onload = script.onreadystatechange = null
+                resolve()
+              }
+    
+              Object.keys(attr).forEach(key => {
+                script.setAttribute(key, attr[key])
+              })
+    
+              document.head.appendChild(script)
+            }),
+            addGlobalFn: (key, fn, name = false, parent = window) => {
+                const globalFn = parent.globalFn || {}
+                const keyObj = globalFn[key] || {}
+        
+                if (name && keyObj[name]) return
+        
+                name = name || Object.keys(keyObj).length
+                keyObj[name] = fn
+                globalFn[key] = keyObj
+                parent.globalFn = globalFn
+            },
+        }
+    })()</script><!-- global head--><script>const GLOBAL_CONFIG = {
+    root: '/',
+    algolia: undefined,
+    localsearch: undefined,
+    runtime: '2023-12-16 00:00:00',
+    lazyload: {
+        enable: true,
+        error: '/img/error_load.avif'
+    },
+    copyright: {"limit":50,"author":"作者: Leo","link":"链接: ","source":"来源: Ly7ngF Blog","info":"著作权归作者所有。 商业转载请联系作者获得授权，非商业转载请注明出处。"},
+    highlight: {
+        enable: true,
+        limit: 200,
+        expand: true,
+        copy: true,
+        syntax: 'prismjs'
+    },
+    randomlink: false,
+    lang: {"theme":{"dark":"已切换至深色模式","light":"已切换至浅色模式"},"copy":{"success":"复制成功","error":"复制失败"},"backtop":"返回顶部","time":{"day":"天前","hour":"小时前","just":"刚刚","min":"分钟前","month":"个月前"},"day":" 天","f12":"开发者模式已打开，请遵循GPL协议。","totalk":"无需删除空行，直接输入评论即可"},
+    aside: {
+        sayhello: {
+            morning: '一日之计在于晨',
+            noon: '吃饱了才有力气干活',
+            afternoon: '集中精力，攻克难关',
+            night: '不要太劳累了，早睡更健康',
+            goodnight: '睡个好觉，保证精力充沛',
+        },
+        sayhello2: [],
+        sayhello3: {
+            prefix: '好久不见，',
+            back: '欢迎再次回来，',
+        },
+    },
+    covercolor: {
+        enable: false
+    },
+    comment: false,
+    lightbox: 'mediumZoom',
+    post_ai: false,
+    right_menu: false,
+};</script><!-- page-config head--><script id="config-diff">var PAGE_CONFIG = {
+    is_post: true,
+    is_page: false,
+    is_home: false,
+    page: '',
+    toc: true,
+    comment: true,
+    ai_text: false
+}</script><meta name="generator" content="Hexo 7.2.0"></head><body id="body"><!-- universe--><!-- loading--><!-- console--><div id="console"><div class="close-btn" onclick="sco.hideConsole()"><i class="solitude st-close-fill"></i></div><div class="button-group"><div class="console-btn-item"><span class="darkmode_switchbutton" onclick="sco.switchDarkMode()" title="昼夜切换"><i class="solitude st-moon-clear-fill"></i></span></div><div class="console-btn-item" id="consoleHideAside"><span class="asideSwitch" onclick="sco.switchHideAside()" title="边栏显示控制"><i class="solitude st-side-bar-fill"></i></span></div></div><div class="console-mask" onclick="sco.hideConsole()"></div></div><!-- sidebar--><div id="sidebar" style="zoom: 1;"><div id="menu-mask" style="display: none;"></div><div id="sidebar-menus"><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">11</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">28</div></a></div></div></div><span class="sidebar-menu-item-title">功能</span><div class="sidebar-menu-item"><span class="darkmode_switchbutton menu-child" onclick="sco.switchDarkMode()"><i class="solitude st-moon-clear-fill"></i><span>显示模式</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>文库</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="solitude  st-folder-fill"></i><span>时光轴</span></a></li><li><a class="site-page child" href="/tags/"><i class="solitude  st-price-tag-fill"></i><span>标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>关于</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/about/"><i class="solitude  st-contacts-fill"></i><span>关于本站</span></a></li></ul></div></div><span class="sidebar-menu-item-title">标签</span><div class="card-widget card-tags card-archives card-webinfo card-allinfo"><div class="card-tag-cloud"><a href="/tags/%E5%93%94%E5%93%A9%E5%93%94%E5%93%A9/">哔哩哔哩<sup>1</sup></a><a href="/tags/Github/">Github<sup>1</sup></a><a href="/tags/Docker/">Docker<sup>5</sup></a><a href="/tags/SSL/">SSL<sup>3</sup></a><a href="/tags/%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86/">反向代理<sup>2</sup></a><a href="/tags/NginxProxyManager/">NginxProxyManager<sup>1</sup></a><a href="/tags/Caddy/">Caddy<sup>1</sup></a><a href="/tags/Minecraft/">Minecraft<sup>2</sup></a><a href="/tags/Java/">Java<sup>2</sup></a><a href="/tags/Fabric/">Fabric<sup>1</sup></a><a href="/tags/ArchLinux/">ArchLinux<sup>1</sup></a><a href="/tags/FontConfig/">FontConfig<sup>1</sup></a><a href="/tags/%E5%AD%97%E4%BD%93/">字体<sup>1</sup></a><a href="/tags/Mac-mini/">Mac mini<sup>1</sup></a><a href="/tags/SSH/">SSH<sup>2</sup></a><a href="/tags/Homebrew/">Homebrew<sup>1</sup></a><a href="/tags/Windows/">Windows<sup>1</sup></a><a href="/tags/RSync/">RSync<sup>1</sup></a><a href="/tags/Hexo/">Hexo<sup>1</sup></a><a href="/tags/Cygwin/">Cygwin<sup>1</sup></a><a href="/tags/Linux/">Linux<sup>1</sup></a><a href="/tags/SwayWM/">SwayWM<sup>1</sup></a><a href="/tags/i3wm/">i3wm<sup>1</sup></a><a href="/tags/Arch/">Arch<sup>1</sup></a><a href="/tags/autologin/">autologin<sup>1</sup></a><a href="/tags/agetty/">agetty<sup>1</sup></a><a href="/tags/systemd/">systemd<sup>1</sup></a><a href="/tags/Debian/">Debian<sup>1</sup></a></div></div></div></div><!-- keyboard--><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav class="show" id="nav"><div id="nav-group"><div id="blog_name"><a id="site-name" href="/" title="返回博客主页"><span class="title">Ly7ngF</span></a></div><div id="page-name-mask"><div id="page-name"><a id="page-name-text" onclick="sco.toTop()">Mac mini服务器初始化设置</a></div></div><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>文库</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="solitude  st-folder-fill"></i><span>时光轴</span></a></li><li><a class="site-page child" href="/tags/"><i class="solitude  st-price-tag-fill"></i><span>标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>关于</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/about/"><i class="solitude  st-contacts-fill"></i><span>关于本站</span></a></li></ul></div></div></div><div id="nav-left"></div><div id="nav-right"><div class="nav-button" id="nav-totop" onclick="sco.toTop()"><a class="totopbtn"><i class="solitude st-arrow-up-line"></i><span id="percent">0</span></a></div><div id="toggle-menu"><a class="site-page"><i class="solitude st-menu-line"></i></a></div></div></div></nav><div class="coverdiv" id="coverdiv"><img class="nolazyload" id="post-cover" src="/img/default.avif" alt="Mac mini服务器初始化设置"></div><div id="post-info"><div id="post-firstinfo"><div class="meta-firstline"><a class="post-meta-original" title="该文章为原创文章，注意版权协议">原创</a><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Docker/"><span class="tags-name tags-punctuation">Docker</span></a><a class="post-meta__tags" href="/tags/Mac-mini/"><span class="tags-name tags-punctuation">Mac mini</span></a><a class="post-meta__tags" href="/tags/SSH/"><span class="tags-name tags-punctuation">SSH</span></a><a class="post-meta__tags" href="/tags/Homebrew/"><span class="tags-name tags-punctuation">Homebrew</span></a></div></div></div></div><h1 class="post-title">Mac mini服务器初始化设置</h1><div id="post-meta"><div class="meta-secondline"></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1>前言</h1>
+<p>最近把一台闲置的Mac mini改装成了家庭服务器，今天来分享一下使用体验和设置过程。</p>
+<h1>准备工作</h1>
+<h2 id="硬件">硬件</h2>
+<ul>
+<li>1台Mac电脑（我这里选择 Mac mini M1）</li>
+<li>连接网络，最好用有线，保证所有设备都在同一局域网下</li>
+<li>连接键鼠、视频线</li>
+<li>外接固态硬盘盒（可选）</li>
+</ul>
+<h2 id="软件">软件</h2>
+<h3 id="开启系统共享">开启系统共享</h3>
+<p>打开系统偏好设置，搜索共享，按照图片内容开启所需功能<br>
+<img src= "/img/loading.avif" data-lazy-src="https://s2.loli.net/2024/03/19/JndbTKCULaAGfEz.webp" alt="macOS开启共享.webp"></p>
+<h4 id="SMB">SMB</h4>
+<p>这边演示如何开启文件共享<br>
+<img src= "/img/loading.avif" data-lazy-src="https://s2.loli.net/2024/03/19/xBieOFa83CVY6Go.webp" alt="开启SMB-1.webp"><br>
+<img src= "/img/loading.avif" data-lazy-src="https://s2.loli.net/2024/03/19/X2YlCO6ao9QLq7G.webp" alt="开启SMB-2.webp"><br>
+<img src= "/img/loading.avif" data-lazy-src="https://s2.loli.net/2024/03/19/4M9uQ6jo3EDmUCX.webp" alt="开启SMB-3.webp"><br>
+其他共享设置也基本大同小异，我这边只开启了smb和ssh服务<br>
+这边主要讲讲如何设置ssh密钥登录</p>
+<h4 id="SSH">SSH</h4>
+<p>在共享设置处开启“远程登录”即可开启SSH服务，主要讲讲如何配置密钥登录并且禁用密码登录</p>
+<h5 id="生成密钥">生成密钥</h5>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">ssh-keygen <span class="token parameter variable">-t</span> rsa <span class="token parameter variable">-b</span> <span class="token number">4096</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>在SSH客户端电脑的终端内使用这条命令创建一个密钥，一路回车即可完成创建。<br>
+然后就可以在 <code>~/.ssh/</code>目录下找到 <code>id_rsa</code> <code>id_rsa.pub</code>文件</p>
+<h5 id="上传密钥">上传密钥</h5>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">cat</span> ~/.ssh/id_rsa.pub <span class="token operator">|</span> <span class="token function">ssh</span> username@server_ip <span class="token string">'mkdir -p ~/.ssh &amp;&amp; cat >> ~/.ssh/authorized_keys'</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>同样在SSH客户端中使用该命令将密钥上传至服务器。</p>
+<h5 id="禁用密码登录">禁用密码登录</h5>
+<p>然后修改服务器上的 <code>sshd_config</code> 文件：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">nano</span> /etc/ssh/sshd_config<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">PasswordAuthentication no
+UsePAM <span class="token function">yes</span>
+kbdInteractiveAuthentication no<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>然后重启SSHD服务</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> launchctl unload /System/Library/LaunchDaemons/ssh.plist
+<span class="token function">sudo</span> launchctl load <span class="token parameter variable">-w</span> /System/Library/LaunchDaemons/ssh.plist<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>这样就可以使用密钥对登录我们的Mac服务器了。</p>
+<h3 id="Homebrew">Homebrew</h3>
+<p>Homebrew是一个MacOS上的软件包管理器，类似于<code>apt</code> <code>yum</code>，用它来管理服务器所需的软件很容易。<br>
+这边使用中科大源安装</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">export</span> <span class="token assign-left variable">HOMEBREW_BREW_GIT_REMOTE</span><span class="token operator">=</span><span class="token string">"https://mirrors.ustc.edu.cn/brew.git"</span>
+<span class="token builtin class-name">export</span> <span class="token assign-left variable">HOMEBREW_CORE_GIT_REMOTE</span><span class="token operator">=</span><span class="token string">"https://mirrors.ustc.edu.cn/homebrew-core.git"</span>
+<span class="token builtin class-name">export</span> <span class="token assign-left variable">HOMEBREW_BOTTLE_DOMAIN</span><span class="token operator">=</span><span class="token string">"https://mirrors.ustc.edu.cn/homebrew-bottles"</span>
+<span class="token builtin class-name">export</span> <span class="token assign-left variable">HOMEBREW_API_DOMAIN</span><span class="token operator">=</span><span class="token string">"https://mirrors.ustc.edu.cn/homebrew-bottles/api"</span>
+/bin/bash <span class="token parameter variable">-c</span> <span class="token string">"<span class="token variable"><span class="token variable">$(</span><span class="token function">curl</span> <span class="token parameter variable">-fsSL</span> https://mirrors.ustc.edu.cn/misc/brew-install.sh<span class="token variable">)</span></span>"</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>安装完成之后编辑.zshrc文件，配置环境变量</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">nano</span> ~/.zshrc<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">eval</span> <span class="token string">"<span class="token variable"><span class="token variable">$(</span>/opt/homebrew/bin/brew shellenv<span class="token variable">)</span></span>"</span>
+<span class="token builtin class-name">export</span> <span class="token assign-left variable">HOMEBREW_BREW_GIT_REMOTE</span><span class="token operator">=</span><span class="token string">"https://mirrors.ustc.edu.cn/brew.git"</span>
+<span class="token builtin class-name">export</span> <span class="token assign-left variable">HOMEBREW_BOTTLE_DOMAIN</span><span class="token operator">=</span><span class="token string">"https://mirrors.ustc.edu.cn/homebrew-bottles"</span>
+<span class="token builtin class-name">export</span> <span class="token assign-left variable">HOMEBREW_API_DOMAIN</span><span class="token operator">=</span><span class="token string">"https://mirrors.ustc.edu.cn/homebrew-bottles/api"</span>
+<span class="token builtin class-name">export</span> <span class="token assign-left variable">HOMEBREW_CORE_GIT_REMOTE</span><span class="token operator">=</span><span class="token string">"https://mirrors.ustc.edu.cn/homebrew-core.git"</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>把以上内容粘贴到尾部，然后保存并退出，Homebrew的安装和配置就完成了。</p>
+<h3 id="Docker">Docker</h3>
+<p>在MacOS上，我选择<code>OrbStack</code>这个软件来管理我的Docker容器，它相比于官方的<code>Docker Desktop</code>轻量很多，占用小。<br>
+直接使用Homebrew安装:</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">brew <span class="token function">install</span> orbstack<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>然后启动Orbstack,进行一下初始化配置<br>
+会提示安装Rosseta来运行X86容器，直接安装即可。<br>
+在Settings中选择System，可以调整内存和CPU最大占用等配置，<br>
+<img src= "/img/loading.avif" data-lazy-src="https://s2.loli.net/2024/03/19/5N2aVi3oK6pk8gd.webp" alt="OrbStack-1.webp"><br>
+然后我们转到Docker，设置一下镜像源</p>
+<pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token punctuation">&#123;</span>
+  <span class="token property">"registry-mirrors"</span> <span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token string">"https://dockerproxy.com"</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><img src= "/img/loading.avif" data-lazy-src="https://s2.loli.net/2024/03/19/TmqQfOSUIMJzo4s.webp" alt="OrbStack-2.webp"><br>
+点击Apply后，OrbStack会自动重启Docker，然后就可以运行我们想用的容器了。<br>
+这篇文章内我就不再赘述了。</p>
+<h1>结语</h1>
+<p>这样一番操作下来服务器的初始化工作就做好了，远程桌面目前我没找到比较好的解决方案，暂时先用HDMI线连显示器手动切换Mac和Win的使用场景了，也总算是能发挥一下我的<code>Keykron K3</code>键盘的多设备切换功能了，（这个Mac键盘我给Win用了快2年了）<br>
+之后可能还讲讲如何用这台服务器部署一些<code>Self-Hosted</code>项目的经历吧……</p>
+</article><div class="post-copyright"><div class="post-copyright__author_group"><a class="post-copyright__author_img" href="/about/"><img class="post-copyright__author_img_front" src= "/img/loading.avif" data-lazy-src="https://s2.loli.net/2024/06/15/RUsmewShJG47o2r.webp"></a><div class="post-copyright__author_name">Ly7ngF Blog</div><div class="post-copyright__author_desc"></div></div><div class="post-tools" id="post-tools"><div class="post-tools-left"><div id="quit-box" onclick="RemoveRewardMask()"></div></div></div><div class="post-copyright__notice"><span class="post-copyright-info">本文是原创文章，采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a>协议，完整转载请注明来自<a href="/">Ly7ngF Blog</a></span></div></div><div class="post-tools-right"><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Docker/"><span class="tags-punctuation"></span>Docker<span class="tagsPageCount">5</span></a><a class="post-meta__tags" href="/tags/Mac-mini/"><span class="tags-punctuation"></span>Mac mini<span class="tagsPageCount">1</span></a><a class="post-meta__tags" href="/tags/SSH/"><span class="tags-punctuation"></span>SSH<span class="tagsPageCount">2</span></a><a class="post-meta__tags" href="/tags/Homebrew/"><span class="tags-punctuation"></span>Homebrew<span class="tagsPageCount">1</span></a></div></div></div><nav class="needEndHide pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/posts/linux-fontconfig/"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">分享我在Linux下的Fontconfig</div></div></a></div><div class="next-post pull-right"><a href="/posts/bili-tools/"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Docker安装B站自动签到、抽奖工具</div></div></a></div></nav><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="solitude st-chat-fill"></i><span> 评论</span><span class="count"> (<span class="twikoo-count"><i class="solitude st-loading-line"></i></span>)</span></div></div><div class="comment-wrap"><div id="twikoo-wrap"></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-content"><div class="card-info-avatar is-center"><div class="author-info__top-group"><div class="author-info__sayhi" id="author-info__sayhi" onclick="sco.changeSayHelloText()">sayhello.morning</div></div></div><div class="avatar-img-group"><img class="avatar-img" alt="头像" src= "/img/loading.avif" data-lazy-src="https://s2.loli.net/2024/06/15/RUsmewShJG47o2r.webp"></div><div class="author-info__description_group"><div class="author-info__description">分享自己对科技的<b>热爱</b>，对美好生活的<b>向往</b>，对知识海洋<b>探索历程</b>。</div><div class="author-info__description2">相信你可以在这里找到对你有用的知识和教程。</div></div><div class="author-info__bottom-group"><a class="author-info__bottom-group-left" href="/about/"><div class="author-info__name">Leo</div><div class="author-info__desc"></div></a><div class="card-info-social-icons is-center"><a class="social-icon" target="_blank" rel="noopener" href="https://github.com/1eof" title="Github"><i class="solitude  st-github-line"></i></a><a class="social-icon" target="_blank" rel="noopener" href="https://space.bilibili.com/531277104" title="Bilibili"><i class="solitude  st-bilibili-line"></i></a></div></div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="solitude st-menu-line"></i><span>文章目录</span></div><div class="toc-content" id="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">准备工作</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A1%AC%E4%BB%B6"><span class="toc-text">硬件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BD%AF%E4%BB%B6"><span class="toc-text">软件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%80%E5%90%AF%E7%B3%BB%E7%BB%9F%E5%85%B1%E4%BA%AB"><span class="toc-text">开启系统共享</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#SMB"><span class="toc-text">SMB</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SSH"><span class="toc-text">SSH</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%94%9F%E6%88%90%E5%AF%86%E9%92%A5"><span class="toc-text">生成密钥</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%B8%8A%E4%BC%A0%E5%AF%86%E9%92%A5"><span class="toc-text">上传密钥</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%A6%81%E7%94%A8%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95"><span class="toc-text">禁用密码登录</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Homebrew"><span class="toc-text">Homebrew</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker"><span class="toc-text">Docker</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">结语</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="solitude st-map-line"></i><span>最近发布</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/hello-world/" title="Hello World"><img alt="Hello World" src= "/img/loading.avif" data-lazy-src="/img/default.avif"></a><div class="content"><a class="title" href="/posts/hello-world/" title="Hello World">Hello World</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/sway-autologin/" title="SwayWM、i3wm在无显示管理器的情况下实现开机自动登录"><img alt="SwayWM、i3wm在无显示管理器的情况下实现开机自动登录" src= "/img/loading.avif" data-lazy-src="/img/default.avif"></a><div class="content"><a class="title" href="/posts/sway-autologin/" title="SwayWM、i3wm在无显示管理器的情况下实现开机自动登录">SwayWM、i3wm在无显示管理器的情况下实现开机自动登录</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/linux-fontconfig/" title="分享我在Linux下的Fontconfig"><img alt="分享我在Linux下的Fontconfig" src= "/img/loading.avif" data-lazy-src="/img/default.avif"></a><div class="content"><a class="title" href="/posts/linux-fontconfig/" title="分享我在Linux下的Fontconfig">分享我在Linux下的Fontconfig</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/macmini-server/" title="Mac mini服务器初始化设置"><img alt="Mac mini服务器初始化设置" src= "/img/loading.avif" data-lazy-src="/img/default.avif"></a><div class="content"><a class="title" href="/posts/macmini-server/" title="Mac mini服务器初始化设置">Mac mini服务器初始化设置</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/bili-tools/" title="Docker安装B站自动签到、抽奖工具"><img alt="Docker安装B站自动签到、抽奖工具" src= "/img/loading.avif" data-lazy-src="/img/default.avif"></a><div class="content"><a class="title" href="/posts/bili-tools/" title="Docker安装B站自动签到、抽奖工具">Docker安装B站自动签到、抽奖工具</a></div></div></div></div></div></div></main><footer id="footer"><div id="st-footer-bar"><div class="footer-logo"><span>Ly7ngF</span></div><div class="footer-bar-description">来自 Leo 的文章</div><a class="footer-bar-link" href="/about/">了解更多</a></div><div id="footer_deal"></div><div id="st-footer"></div><div id="footer-bar"><div class="footer-bar-links"><div class="footer-bar-left"><div class="copyright">© 2023 - 2024 By&nbsp;<a class="footer-bar-link" href="/">Leo</a></div></div><div class="footer-bar-right"><a class="footer-bar-link" target="_blank" rel="noopener" href="https://github.com/everfu/hexo-theme-solitude" alt="主题">主题</a><a class="footer-bar-link cc" href="/null" aria-label="copyright"><i class="solitude st-copyright-line"></i><i class="solitude st-creative-commons-by-line"></i><i class="solitude st-creative-commons-nc-line"></i><i class="solitude st-creative-commons-nd-line"></i></a></div></div></div></footer></div><!-- right_menu--><!-- inject body--><div><script src="/js/utils.js?v=1.12.2"></script><script src="/js/main.js?v=1.12.2"></script><script src="/js/third_party/waterfall.min.js?v=1.12.2"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/pjax/0.2.8/pjax.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/19.1.3/lazyload.iife.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/node-snackbar/0.1.16/snackbar.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.1.0/medium-zoom.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js"></script><div class="js-pjax"><script>(() => {
+    const getCount = () => {
+        const ele = document.querySelectorAll('.twikoo-count')
+        if (!ele) return
+        twikoo.getCommentsCount({
+            envId: 'https://twikoo.ly7ngf.top/',
+            region: '',
+            urls: [window.location.pathname],
+            includeReply: false
+        }).then(res => {
+            ele.forEach(item => item.textContent = res[0].count)
+        }).catch(err => {
+            console.error(err)
+        })
+    }
+    const init = () => {
+        twikoo.init(Object.assign({
+            el: '#twikoo-wrap',
+            envId: 'https://twikoo.ly7ngf.top/',
+            region: '',
+            path: window.location.pathname,
+            onCommentLoaded: () => {
+                GLOBAL_CONFIG.lightbox && utils.lightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+            }
+        }, null))
+
+         && getCount()
+        sco.owoBig({
+            body: '.OwO-body',
+            item: '.OwO-items li'
+        })
+
+        barrageTwikoo()
+    }
+
+    const loadTwikoo = () => {
+        if (typeof twikoo === 'object') setTimeout(init,0)
+        else utils.getScript('https://cdnjs.cloudflare.com/ajax/libs/twikoo/1.6.36/twikoo.all.min.js').then(init)
+    }
+
+    if ('Twikoo' === 'Twikoo' || true) {
+        if (true) utils.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+        else loadTwikoo()
+    } else {
+        window.loadTwoComment = loadTwikoo
+    }
+})()
+</script></div></div><!-- pjax--><script>const pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: ['title','#body-wrap','#site-config','meta[name="description"]','.js-pjax','meta[property^="og:"]','#config-diff'],
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+})
+
+document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+})
+
+document.addEventListener('pjax:complete', () => {
+    window.refreshFn()
+
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+        const newScript = document.createElement('script')
+        const content = item.text || item.textContent || item.innerHTML || ""
+        Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+        newScript.appendChild(document.createTextNode(content))
+        item.parentNode.replaceChild(newScript, item)
+    })
+
+    GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+})
+
+document.addEventListener('pjax:error', (e) => {
+    if (e.request.status === 404) {
+        pjax.loadUrl('/404.html')
+    }
+})</script><!-- theme--><script>initTheme = () => {
+    let isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const cachedMode = utils.saveToLocal.get('theme');
+    if (cachedMode === undefined) {
+        const nowMode =
+            isDarkMode ? 'dark' : 'light'
+        document.documentElement.setAttribute('data-theme', nowMode);
+    } else {
+        document.documentElement.setAttribute('data-theme', cachedMode);
+    }
+    typeof rm === 'object' && rm.mode(cachedMode === 'dark' && isDarkMode)
+}
+initTheme()</script><!-- google adsense--><!-- search--><!-- Tianli-Talk--><!-- music--></body></html><script>const posts=["posts/hello-world/","posts/sway-autologin/","posts/linux-fontconfig/","posts/macmini-server/","posts/bili-tools/","posts/config-nginxproxymanager/","posts/config-caddy/","posts/docker-mcserver/","posts/fabric-mcserver/","posts/rsync-deploy-hexo/","posts/vps-cmd/"];function toRandomPost(){ pjax.loadUrl('/'+posts[Math.floor(Math.random()*posts.length)]); }</script>

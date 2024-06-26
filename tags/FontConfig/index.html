@@ -1,0 +1,185 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>标签: FontConfig | Ly7ngF Blog</title><noscript>开启JavaScript才能访问本站哦~</noscript><link rel="icon" href="https://s2.loli.net/2024/06/15/RUsmewShJG47o2r.webp"><!-- index.css--><link rel="stylesheet" href="/css/index.css?v=1.12.2"><!-- inject head--><link rel="canonical" href="https://blog.ly7ngf.top/tags/FontConfig/"><link rel="stylesheet" href="https://cdn2.codesign.qq.com/icons/7pOrz0WXB5ZWJPX/latest/iconfont.css"><!-- aplayer--><!-- swiper--><!-- fancybox ui--><!-- katex--><!-- Open Graph--><meta name="description"><!-- pwa--><meta name="apple-mobile-web-app-capable" content="Ly7ngF Blog"><meta name="theme-color" content="var(--efu-main)"><meta name="apple-mobile-web-app-status-bar-style" content="var(--efu-main)"><link rel="bookmark" href="https://s2.loli.net/2024/06/15/RUsmewShJG47o2r.webp"><link rel="apple-touch-icon" href="https://s2.loli.net/2024/06/15/RUsmewShJG47o2r.webp" sizes="180x180"><script>console.log(
+    "%c Program: Hexo %c Theme: Solitude %c Version: v1.12.2",
+    "border-radius:5px 0 0 5px;padding: 5px 10px;color:white;background:#ff3842;",
+    "padding: 5px 10px;color:white;background:#3e9f50;",
+    "padding: 5px 10px;color:white;background:#0084ff;border-radius:0 5px 5px 0",
+)
+</script><script>let mdate = "7-8,9-18,12-13";
+mdate = (mdate.split(","));
+let ndate = new Date();
+for (let i of mdate) {
+    if (i === (ndate.getMonth()+1) + "-" + (ndate.getDate())) {
+        document.documentElement.classList.add('memorial');
+    }
+}
+</script><script>(()=>{
+        const saveToLocal = {
+            set: function setWithExpiry(key, value, ttl) {
+                if (ttl === 0)
+                    return
+                const now = new Date()
+                const expiryDay = ttl * 86400000
+                const item = {
+                    value: value,
+                    expiry: now.getTime() + expiryDay
+                }
+                localStorage.setItem(key, JSON.stringify(item))
+            },
+            get: function getWithExpiry(key) {
+                const itemStr = localStorage.getItem(key)
+    
+                if (!itemStr) {
+                    return undefined
+                }
+                const item = JSON.parse(itemStr)
+                const now = new Date()
+    
+                if (now.getTime() > item.expiry) {
+                    localStorage.removeItem(key)
+                    return undefined
+                }
+                return item.value
+            }
+        };
+        window.utils = {
+            saveToLocal: saveToLocal,
+            getCSS: (url, id = false) => new Promise((resolve, reject) => {
+              const link = document.createElement('link')
+              link.rel = 'stylesheet'
+              link.href = url
+              if (id) link.id = id
+              link.onerror = reject
+              link.onload = link.onreadystatechange = function() {
+                const loadState = this.readyState
+                if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+                link.onload = link.onreadystatechange = null
+                resolve()
+              }
+              document.head.appendChild(link)
+            }),
+            getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+              const script = document.createElement('script')
+              script.src = url
+              script.async = true
+              script.onerror = reject
+              script.onload = script.onreadystatechange = function() {
+                const loadState = this.readyState
+                if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+                script.onload = script.onreadystatechange = null
+                resolve()
+              }
+    
+              Object.keys(attr).forEach(key => {
+                script.setAttribute(key, attr[key])
+              })
+    
+              document.head.appendChild(script)
+            }),
+            addGlobalFn: (key, fn, name = false, parent = window) => {
+                const globalFn = parent.globalFn || {}
+                const keyObj = globalFn[key] || {}
+        
+                if (name && keyObj[name]) return
+        
+                name = name || Object.keys(keyObj).length
+                keyObj[name] = fn
+                globalFn[key] = keyObj
+                parent.globalFn = globalFn
+            },
+        }
+    })()</script><!-- global head--><script>const GLOBAL_CONFIG = {
+    root: '/',
+    algolia: undefined,
+    localsearch: undefined,
+    runtime: '2023-12-16 00:00:00',
+    lazyload: {
+        enable: true,
+        error: '/img/error_load.avif'
+    },
+    copyright: {"limit":50,"author":"作者: Leo","link":"链接: ","source":"来源: Ly7ngF Blog","info":"著作权归作者所有。 商业转载请联系作者获得授权，非商业转载请注明出处。"},
+    highlight: {
+        enable: true,
+        limit: 200,
+        expand: true,
+        copy: true,
+        syntax: 'prismjs'
+    },
+    randomlink: false,
+    lang: {"theme":{"dark":"已切换至深色模式","light":"已切换至浅色模式"},"copy":{"success":"复制成功","error":"复制失败"},"backtop":"返回顶部","time":{"day":"天前","hour":"小时前","just":"刚刚","min":"分钟前","month":"个月前"},"day":" 天","f12":"开发者模式已打开，请遵循GPL协议。","totalk":"无需删除空行，直接输入评论即可"},
+    aside: {
+        sayhello: {
+            morning: '一日之计在于晨',
+            noon: '吃饱了才有力气干活',
+            afternoon: '集中精力，攻克难关',
+            night: '不要太劳累了，早睡更健康',
+            goodnight: '睡个好觉，保证精力充沛',
+        },
+        sayhello2: [],
+        sayhello3: {
+            prefix: '好久不见，',
+            back: '欢迎再次回来，',
+        },
+    },
+    covercolor: {
+        enable: false
+    },
+    comment: false,
+    lightbox: 'mediumZoom',
+    post_ai: false,
+    right_menu: false,
+};</script><!-- page-config head--><script id="config-diff">var PAGE_CONFIG = {
+    is_post: false,
+    is_page: true,
+    is_home: false,
+    page: '',
+    toc: false,
+    comment: false,
+    ai_text: false
+}</script><meta name="generator" content="Hexo 7.2.0"></head><body id="body"><!-- universe--><!-- loading--><!-- console--><div id="console"><div class="close-btn" onclick="sco.hideConsole()"><i class="solitude st-close-fill"></i></div><div class="button-group"><div class="console-btn-item"><span class="darkmode_switchbutton" onclick="sco.switchDarkMode()" title="昼夜切换"><i class="solitude st-moon-clear-fill"></i></span></div><div class="console-btn-item" id="consoleHideAside"><span class="asideSwitch" onclick="sco.switchHideAside()" title="边栏显示控制"><i class="solitude st-side-bar-fill"></i></span></div></div><div class="console-mask" onclick="sco.hideConsole()"></div></div><!-- sidebar--><div id="sidebar" style="zoom: 1;"><div id="menu-mask" style="display: none;"></div><div id="sidebar-menus"><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">11</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">28</div></a></div></div></div><span class="sidebar-menu-item-title">功能</span><div class="sidebar-menu-item"><span class="darkmode_switchbutton menu-child" onclick="sco.switchDarkMode()"><i class="solitude st-moon-clear-fill"></i><span>显示模式</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>文库</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="solitude  st-folder-fill"></i><span>时光轴</span></a></li><li><a class="site-page child" href="/tags/"><i class="solitude  st-price-tag-fill"></i><span>标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>关于</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/about/"><i class="solitude  st-contacts-fill"></i><span>关于本站</span></a></li></ul></div></div><span class="sidebar-menu-item-title">标签</span><div class="card-widget card-tags card-archives card-webinfo card-allinfo"><div class="card-tag-cloud"><a href="/tags/%E5%93%94%E5%93%A9%E5%93%94%E5%93%A9/">哔哩哔哩<sup>1</sup></a><a href="/tags/Github/">Github<sup>1</sup></a><a href="/tags/Docker/">Docker<sup>5</sup></a><a href="/tags/SSL/">SSL<sup>3</sup></a><a href="/tags/%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86/">反向代理<sup>2</sup></a><a href="/tags/NginxProxyManager/">NginxProxyManager<sup>1</sup></a><a href="/tags/Caddy/">Caddy<sup>1</sup></a><a href="/tags/Minecraft/">Minecraft<sup>2</sup></a><a href="/tags/Java/">Java<sup>2</sup></a><a href="/tags/Fabric/">Fabric<sup>1</sup></a><a href="/tags/ArchLinux/">ArchLinux<sup>1</sup></a><a href="/tags/FontConfig/">FontConfig<sup>1</sup></a><a href="/tags/%E5%AD%97%E4%BD%93/">字体<sup>1</sup></a><a href="/tags/Mac-mini/">Mac mini<sup>1</sup></a><a href="/tags/SSH/">SSH<sup>2</sup></a><a href="/tags/Homebrew/">Homebrew<sup>1</sup></a><a href="/tags/Windows/">Windows<sup>1</sup></a><a href="/tags/RSync/">RSync<sup>1</sup></a><a href="/tags/Hexo/">Hexo<sup>1</sup></a><a href="/tags/Cygwin/">Cygwin<sup>1</sup></a><a href="/tags/Linux/">Linux<sup>1</sup></a><a href="/tags/SwayWM/">SwayWM<sup>1</sup></a><a href="/tags/i3wm/">i3wm<sup>1</sup></a><a href="/tags/Arch/">Arch<sup>1</sup></a><a href="/tags/autologin/">autologin<sup>1</sup></a><a href="/tags/agetty/">agetty<sup>1</sup></a><a href="/tags/systemd/">systemd<sup>1</sup></a><a href="/tags/Debian/">Debian<sup>1</sup></a></div></div></div></div><!-- keyboard--><div class="page" id="body-wrap"><header class="not-top-img" id="page-header"><nav class="show" id="nav"><div id="nav-group"><div id="blog_name"><a id="site-name" href="/" title="返回博客主页"><span class="title">Ly7ngF</span></a></div><div id="page-name-mask"><div id="page-name"><a id="page-name-text" onclick="sco.toTop()">标签: FontConfig</a></div></div><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>文库</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="solitude  st-folder-fill"></i><span>时光轴</span></a></li><li><a class="site-page child" href="/tags/"><i class="solitude  st-price-tag-fill"></i><span>标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>关于</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/about/"><i class="solitude  st-contacts-fill"></i><span>关于本站</span></a></li></ul></div></div></div><div id="nav-left"></div><div id="nav-right"><div class="nav-button" id="nav-totop" onclick="sco.toTop()"><a class="totopbtn"><i class="solitude st-arrow-up-line"></i><span id="percent">0</span></a></div><div id="toggle-menu"><a class="site-page"><i class="solitude st-menu-line"></i></a></div></div></div></nav></header><main class="layout" id="content-inner"><div id="tag"><div id="tag-page-tags"><a id="哔哩哔哩" href="/tags/%E5%93%94%E5%93%A9%E5%93%94%E5%93%A9/"><span class="tags-punctuation"></span>哔哩哔哩<span class="tagsPageCount">1</span></a><a id="Github" href="/tags/Github/"><span class="tags-punctuation"></span>Github<span class="tagsPageCount">1</span></a><a id="Docker" href="/tags/Docker/"><span class="tags-punctuation"></span>Docker<span class="tagsPageCount">5</span></a><a id="SSL" href="/tags/SSL/"><span class="tags-punctuation"></span>SSL<span class="tagsPageCount">3</span></a><a id="反向代理" href="/tags/%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86/"><span class="tags-punctuation"></span>反向代理<span class="tagsPageCount">2</span></a><a id="NginxProxyManager" href="/tags/NginxProxyManager/"><span class="tags-punctuation"></span>NginxProxyManager<span class="tagsPageCount">1</span></a><a id="Caddy" href="/tags/Caddy/"><span class="tags-punctuation"></span>Caddy<span class="tagsPageCount">1</span></a><a id="Minecraft" href="/tags/Minecraft/"><span class="tags-punctuation"></span>Minecraft<span class="tagsPageCount">2</span></a><a id="Java" href="/tags/Java/"><span class="tags-punctuation"></span>Java<span class="tagsPageCount">2</span></a><a id="Fabric" href="/tags/Fabric/"><span class="tags-punctuation"></span>Fabric<span class="tagsPageCount">1</span></a><a id="ArchLinux" href="/tags/ArchLinux/"><span class="tags-punctuation"></span>ArchLinux<span class="tagsPageCount">1</span></a><a class="select" id="FontConfig" href="/tags/FontConfig/"><span class="tags-punctuation"></span>FontConfig<span class="tagsPageCount">1</span></a><a id="字体" href="/tags/%E5%AD%97%E4%BD%93/"><span class="tags-punctuation"></span>字体<span class="tagsPageCount">1</span></a><a id="Mac mini" href="/tags/Mac-mini/"><span class="tags-punctuation"></span>Mac mini<span class="tagsPageCount">1</span></a><a id="SSH" href="/tags/SSH/"><span class="tags-punctuation"></span>SSH<span class="tagsPageCount">2</span></a><a id="Homebrew" href="/tags/Homebrew/"><span class="tags-punctuation"></span>Homebrew<span class="tagsPageCount">1</span></a><a id="Windows" href="/tags/Windows/"><span class="tags-punctuation"></span>Windows<span class="tagsPageCount">1</span></a><a id="RSync" href="/tags/RSync/"><span class="tags-punctuation"></span>RSync<span class="tagsPageCount">1</span></a><a id="Hexo" href="/tags/Hexo/"><span class="tags-punctuation"></span>Hexo<span class="tagsPageCount">1</span></a><a id="Cygwin" href="/tags/Cygwin/"><span class="tags-punctuation"></span>Cygwin<span class="tagsPageCount">1</span></a><a id="Linux" href="/tags/Linux/"><span class="tags-punctuation"></span>Linux<span class="tagsPageCount">1</span></a><a id="SwayWM" href="/tags/SwayWM/"><span class="tags-punctuation"></span>SwayWM<span class="tagsPageCount">1</span></a><a id="i3wm" href="/tags/i3wm/"><span class="tags-punctuation"></span>i3wm<span class="tagsPageCount">1</span></a><a id="Arch" href="/tags/Arch/"><span class="tags-punctuation"></span>Arch<span class="tagsPageCount">1</span></a><a id="autologin" href="/tags/autologin/"><span class="tags-punctuation"></span>autologin<span class="tagsPageCount">1</span></a><a id="agetty" href="/tags/agetty/"><span class="tags-punctuation"></span>agetty<span class="tagsPageCount">1</span></a><a id="systemd" href="/tags/systemd/"><span class="tags-punctuation"></span>systemd<span class="tagsPageCount">1</span></a><a id="Debian" href="/tags/Debian/"><span class="tags-punctuation"></span>Debian<span class="tagsPageCount">1</span></a></div><div class="recent-posts" id="recent-posts"><div class="recent-post-item" onclick="pjax.loadUrl('/posts/linux-fontconfig/')"><div class="post_cover"><a href="/posts/linux-fontconfig/" title="分享我在Linux下的Fontconfig"><img class="post_bg" src= "/img/loading.avif" data-lazy-src="/img/default.avif" alt="分享我在Linux下的Fontconfig"></a></div><div class="recent-post-info"><div class="recent-post-info-top"><div class="recent-post-info-top-tips"><a class="unvisited-post" href="/posts/linux-fontconfig/">未读</a></div><a class="article-title" href="/posts/linux-fontconfig/" title="分享我在Linux下的Fontconfig">分享我在Linux下的Fontconfig</a></div><break></break><div class="article-meta-wrap"><span class="article-meta tags"><a class="article-meta__tags" href="/tags/ArchLinux/" onclick="event.stopPropagation();"><span class="tags-punctuation">ArchLinux</span></a><a class="article-meta__tags" href="/tags/FontConfig/" onclick="event.stopPropagation();"><span class="tags-punctuation">FontConfig</span></a><a class="article-meta__tags" href="/tags/%E5%AD%97%E4%BD%93/" onclick="event.stopPropagation();"><span class="tags-punctuation">字体</span></a></span><span class="post-meta-date"><time datetime="2024-06-02T04:15:56.000Z"></time></span></div></div></div><nav id="pagination"><div class="pagination"><span class="page-number current">1</span><div class="toPageGroup"><input id="toPageText" oninput="value=value.replace(/[^0-9]/g,'')" maxlength="3" title="跳转到指定页面" onkeyup="if (this.value === '0') this.value = ''"><a id="toPageButton" onclick="sco.toPage()"><i class="solitude st-show-right-line"></i></a></div></div></nav></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-content"><div class="card-info-avatar is-center"><div class="author-info__top-group"><div class="author-info__sayhi" id="author-info__sayhi" onclick="sco.changeSayHelloText()">sayhello.morning</div></div></div><div class="avatar-img-group"><img class="avatar-img" alt="头像" src= "/img/loading.avif" data-lazy-src="https://s2.loli.net/2024/06/15/RUsmewShJG47o2r.webp"></div><div class="author-info__description_group"><div class="author-info__description">分享自己对科技的<b>热爱</b>，对美好生活的<b>向往</b>，对知识海洋<b>探索历程</b>。</div><div class="author-info__description2">相信你可以在这里找到对你有用的知识和教程。</div></div><div class="author-info__bottom-group"><a class="author-info__bottom-group-left" href="/about/"><div class="author-info__name">Leo</div><div class="author-info__desc"></div></a><div class="card-info-social-icons is-center"><a class="social-icon" target="_blank" rel="noopener" href="https://github.com/1eof" title="Github"><i class="solitude  st-github-line"></i></a><a class="social-icon" target="_blank" rel="noopener" href="https://space.bilibili.com/531277104" title="Bilibili"><i class="solitude  st-bilibili-line"></i></a></div></div></div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="solitude st-map-line"></i><span>最近发布</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/hello-world/" title="Hello World"><img alt="Hello World" src= "/img/loading.avif" data-lazy-src="/img/default.avif"></a><div class="content"><a class="title" href="/posts/hello-world/" title="Hello World">Hello World</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/sway-autologin/" title="SwayWM、i3wm在无显示管理器的情况下实现开机自动登录"><img alt="SwayWM、i3wm在无显示管理器的情况下实现开机自动登录" src= "/img/loading.avif" data-lazy-src="/img/default.avif"></a><div class="content"><a class="title" href="/posts/sway-autologin/" title="SwayWM、i3wm在无显示管理器的情况下实现开机自动登录">SwayWM、i3wm在无显示管理器的情况下实现开机自动登录</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/linux-fontconfig/" title="分享我在Linux下的Fontconfig"><img alt="分享我在Linux下的Fontconfig" src= "/img/loading.avif" data-lazy-src="/img/default.avif"></a><div class="content"><a class="title" href="/posts/linux-fontconfig/" title="分享我在Linux下的Fontconfig">分享我在Linux下的Fontconfig</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/macmini-server/" title="Mac mini服务器初始化设置"><img alt="Mac mini服务器初始化设置" src= "/img/loading.avif" data-lazy-src="/img/default.avif"></a><div class="content"><a class="title" href="/posts/macmini-server/" title="Mac mini服务器初始化设置">Mac mini服务器初始化设置</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/bili-tools/" title="Docker安装B站自动签到、抽奖工具"><img alt="Docker安装B站自动签到、抽奖工具" src= "/img/loading.avif" data-lazy-src="/img/default.avif"></a><div class="content"><a class="title" href="/posts/bili-tools/" title="Docker安装B站自动签到、抽奖工具">Docker安装B站自动签到、抽奖工具</a></div></div></div></div><div class="card-widget card-tags card-archives card-webinfo card-allinfo"><div class="webinfo"><div class="webinfo-item"><div class="webinfo-item-title"><i class="item-icon solitude st-folder-fill"></i><div class="item-name">文章总数 :</div></div><div class="item-count">11</div></div><div class="webinfo-item"><div class="webinfo-item-title"><i class="item-icon solitude st-calendar-todo-fill"></i><div class="item-name">建站天数 :</div></div><div class="item-count" id="runtimeshow"></div></div><div class="webinfo-item"><div class="webinfo-item-title"><i class="item-icon solitude st-loop-left-fill"></i><div class="item-name">最后更新 :</div></div><time class="item-count" datetime="2024-06-26T13:43:36.173Z"></time></div></div></div></div></div></main><footer id="footer"><div id="footer_deal"></div><div id="st-footer"></div><div id="footer-bar"><div class="footer-bar-links"><div class="footer-bar-left"><div class="copyright">© 2023 - 2024 By&nbsp;<a class="footer-bar-link" href="/">Leo</a></div></div><div class="footer-bar-right"><a class="footer-bar-link" target="_blank" rel="noopener" href="https://github.com/everfu/hexo-theme-solitude" alt="主题">主题</a><a class="footer-bar-link cc" href="/null" aria-label="copyright"><i class="solitude st-copyright-line"></i><i class="solitude st-creative-commons-by-line"></i><i class="solitude st-creative-commons-nc-line"></i><i class="solitude st-creative-commons-nd-line"></i></a></div></div></div></footer></div><!-- right_menu--><!-- inject body--><div><script src="/js/utils.js?v=1.12.2"></script><script src="/js/main.js?v=1.12.2"></script><script src="/js/third_party/waterfall.min.js?v=1.12.2"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/pjax/0.2.8/pjax.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/19.1.3/lazyload.iife.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/node-snackbar/0.1.16/snackbar.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.1.0/medium-zoom.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js"></script><div class="js-pjax"></div></div><!-- pjax--><script>const pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: ['title','#body-wrap','#site-config','meta[name="description"]','.js-pjax','meta[property^="og:"]','#config-diff'],
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+})
+
+document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+})
+
+document.addEventListener('pjax:complete', () => {
+    window.refreshFn()
+
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+        const newScript = document.createElement('script')
+        const content = item.text || item.textContent || item.innerHTML || ""
+        Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+        newScript.appendChild(document.createTextNode(content))
+        item.parentNode.replaceChild(newScript, item)
+    })
+
+    GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+})
+
+document.addEventListener('pjax:error', (e) => {
+    if (e.request.status === 404) {
+        pjax.loadUrl('/404.html')
+    }
+})</script><!-- theme--><script>initTheme = () => {
+    let isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const cachedMode = utils.saveToLocal.get('theme');
+    if (cachedMode === undefined) {
+        const nowMode =
+            isDarkMode ? 'dark' : 'light'
+        document.documentElement.setAttribute('data-theme', nowMode);
+    } else {
+        document.documentElement.setAttribute('data-theme', cachedMode);
+    }
+    typeof rm === 'object' && rm.mode(cachedMode === 'dark' && isDarkMode)
+}
+initTheme()</script><!-- google adsense--><!-- search--><!-- Tianli-Talk--><!-- music--></body></html><script>const posts=["posts/hello-world/","posts/sway-autologin/","posts/linux-fontconfig/","posts/macmini-server/","posts/bili-tools/","posts/config-nginxproxymanager/","posts/config-caddy/","posts/docker-mcserver/","posts/fabric-mcserver/","posts/rsync-deploy-hexo/","posts/vps-cmd/"];function toRandomPost(){ pjax.loadUrl('/'+posts[Math.floor(Math.random()*posts.length)]); }</script>
